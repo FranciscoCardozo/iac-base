@@ -41,6 +41,14 @@ module "lambda" {
   security_group_id = module.vpc.lambda_sg_id
 }
 
+module "cloudfront" {
+  source           = "./modules/cloudfront"
+  cloudfront_name  = "cinema-digital"
+  s3_bucket_domain = module.s3.bucket_regional_domain_name
+  s3_origin_id     = "S3Origin"
+  environment      = "prod"
+}
+
 module "apigateway" {
   source     = "./modules/apigateway"
   api_name   = "api-cinema"
