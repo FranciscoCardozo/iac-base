@@ -15,13 +15,16 @@ provider "aws" {
 
 
 module "vpc" {
-  source             = "./modules/vpc"
-  cidr_block         = "10.0.0.0/16"
-  vpc_name           = "mi-vpc"
+  source              = "./modules/vpc"
+  cidr_block          = "10.0.0.0/16"
+  vpc_name            = "mi-vpc"
   private_subnet_cidr = "10.0.1.0/24"
-  availability_zone  = "us-east-1b"
+  availability_zone   = "us-east-1b"
 }
 
+module "dynamo" {
+  source = "./modules/dynamo"
+}
 module "lambda" {
   source            = "./modules/lambda"
   lambda_name       = "lambda_cinema"
@@ -31,11 +34,11 @@ module "lambda" {
 }
 
 module "apigateway" {
-  source    = "./modules/apigateway"
-  api_name  = "api-cinema"
-  oas_file  = "${path.module}/api.yaml"
+  source     = "./modules/apigateway"
+  api_name   = "api-cinema"
+  oas_file   = "${path.module}/api.yaml"
   stage_name = "prod"
-  lambda_arn  = module.lambda.lambda_arn
+  lambda_arn = module.lambda.lambda_arn
 }
 
 output "vpc_id" {
