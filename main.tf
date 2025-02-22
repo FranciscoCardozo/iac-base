@@ -22,6 +22,14 @@ module "vpc" {
   availability_zone   = "us-east-1b"
 }
 
+module "s3" {
+  source            = "./modules/s3"
+  bucket_name       = "s3-app-cinema"
+  environment       = "prod"
+  versioning_enabled = true
+}
+
+
 module "dynamo" {
   source = "./modules/dynamo"
 }
