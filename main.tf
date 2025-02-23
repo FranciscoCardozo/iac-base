@@ -39,6 +39,8 @@ module "lambda" {
   lambda_zip        = "lambda.zip"
   subnet_ids        = [module.vpc.private_subnet_id]
   security_group_id = module.vpc.lambda_sg_id
+  aws_region        = "us-east-1"
+  aws_account_id    = var.accound_id
 }
 
 module "cloudfront" {

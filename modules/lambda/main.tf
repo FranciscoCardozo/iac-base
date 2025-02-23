@@ -17,23 +17,30 @@ resource "aws_lambda_function" "lambda_function" {
 }
 
 # Rol IAM para Lambda
-resource "aws_iam_role" "lambda_role" {
-  name = "${var.lambda_name}-role"
-
-  assume_role_policy = <<EOF
+resource "aws_iam_policy" "lambda_logging" {
+  name        = "${var.lambda_name}-logging-policy"
+  description = "Permite a Lambda escribir logs en CloudWatch"
+  policy      = <<EOF
 {
   "Version": "2012-10-17",
   "Statement": [
     {
       "Effect": "Allow",
-      "Principal": {
-        "Service": "lambda.amazonaws.com"
-      },
-      "Action": "sts:AssumeRole"
+      "Action": [
+        "logs:CreateLogGroup",
+        "logs:CreateLogStream",
+        "logs:PutLogEvents"
+      ],
+      "Resource": "arn:aws:logs:${var.aws_region}:${var.aws_account_id}:log-group:/aws/lambda/${var.lambda_name}:*"
     }
   ]
 }
 EOF
+}
+
+resource "aws_iam_role_policy_attachment" "lambda_logging_attachment" {
+  role       = aws_iam_role.lambda_role.name
+  policy_arn = aws_iam_policy.lambda_logging.arn
 }
 
 resource "aws_iam_policy_attachment" "lambda_vpc_attachment" {
@@ -47,4 +54,9 @@ resource "aws_lambda_permission" "apigateway" {
   action        = "lambda:InvokeFunction"
   function_name = aws_lambda_function.lambda_function.function_name
   principal     = "apigateway.amazonaws.com"
+}
+
+resource "aws_cloudwatch_log_group" "lambda_log_group" {
+  name              = "/aws/lambda/${var.lambda_name}"
+  retention_in_days = 7  # Configura la retención de logs
 }

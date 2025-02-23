@@ -10,3 +10,9 @@ variable "secret_key" {
   type        = string
   sensitive   = true
 }
+
+variable "accound_id" {
+  description = "id de cuenta"
+  type        = string
+  sensitive   = true
+}

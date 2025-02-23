@@ -17,3 +17,13 @@ variable "security_group_id" {
   description = "Security Group de la Lambda"
   type        = string
 }
+
+variable "aws_region" {
+  description = "Security Group de la Lambda"
+  type        = string
+}
+
+variable "aws_account_id" {
+  description = "Security Group de la Lambda"
+  type        = string
+}

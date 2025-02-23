@@ -1,0 +1,296 @@
+{
+    "openapi": "3.0.2",
+    "info": {
+        "title": "cinema-mngr",
+        "version": "1.0.3",
+        "description": "Api para la gestión del simulador de crédito de vehículo"
+    },
+    "servers": [
+        {
+            "url": "api",
+            "description": "Endpoint Producción"
+        }
+    ],
+    "paths": {
+        "/V1/Product/cinema/getMovies": {
+            "description": "Recurso para obtener el plan de pago de la simulación",
+            "get": {
+                "parameters": [
+                ],
+                "responses": {
+                "200": {
+                    "$ref": "#/components/responses/GetMoviesRsDef"
+                },
+                "500": {
+                    "$ref": "#/components/responses/GenericErrorRs"
+                },
+                "default": {
+                    "$ref": "#/components/responses/GenericErrorRs"
+                }
+                },
+                "security": [
+                {
+                    "X-Api-Key": []
+                }
+                ],
+                "description": "Resource to read the approval letter.",
+                "x-amazon-apigateway-request-validator": "Validate body, query string parameters, and headers",
+                "x-amazon-apigateway-integration": {
+                "uri": "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:123456789012:function:mi-lambda/invocations",
+                "responses": {
+                    "default": {
+                    "statusCode": "200"
+                    }
+                },
+                "passthroughBehavior": "when_no_match",
+                "httpMethod": "POST",
+                "contentHandling": "CONVERT_TO_TEXT",
+                "type": "aws_proxy"
+                }
+            },
+            "options": {
+                "responses": {
+                    "200": {
+                        "headers": {
+                            "Access-Control-Expose-Headers": {
+                                "schema": {
+                                    "maxLength": 1000,
+                                    "pattern": "^(?!.*<[^>]+>).*",
+                                    "type": "string"
+                                }
+                            },
+                            "Access-Control-Allow-Origin": {
+                                "schema": {
+                                    "maxLength": 1000,
+                                    "pattern": "^(?!.*<[^>]+>).*",
+                                    "type": "string"
+                                }
+                            },
+                            "Access-Control-Allow-Methods": {
+                                "schema": {
+                                    "maxLength": 1000,
+                                    "pattern": "^(?!.*<[^>]+>).*",
+                                    "type": "string"
+                                }
+                            },
+                            "Access-Control-Allow-Headers": {
+                                "schema": {
+                                    "maxLength": 1000,
+                                    "pattern": "^(?!.*<[^>]+>).*",
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "description": "200 response"
+                    },
+                    "403": {
+                        "description": "Forbidden response"
+                    },
+                    "500": {
+                        "description": "Error response"
+                    },
+                    "default": {
+                        "description": "Default response"
+                    }
+                },
+                "security": [
+                    {
+                        "X-Api-Key": []
+                    }
+                ],
+                "x-amazon-apigateway-integration": {
+                    "responses": {
+                        "default": {
+                            "statusCode": "200",
+                            "responseParameters": {
+                                "method.response.header.Access-Control-Expose-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,X-Name,X-RqUID,X-CustId,X-IPAddr,X-Channel,access-token,x-custom-header-vc,x-origin-cloudfront,X-CompanyId,x-auth-token,x-strcode,traceparent'",
+                                "method.response.header.Access-Control-Allow-Methods": "'POST,OPTIONS'",
+                                "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,X-Name,X-RqUID,X-CustId,X-IPAddr,X-Channel,access-token,x-custom-header-vc,x-origin-cloudfront,X-CompanyId,x-auth-token,x-strcode,traceparent'",
+                                "method.response.header.Access-Control-Allow-Origin": "'*'"
+                            }
+                        }
+                    },
+                    "requestTemplates": {
+                        "application/json": "{\"statusCode\": 200}"
+                    },
+                    "passthroughBehavior": "when_no_match",
+                    "type": "mock"
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "ErrorStatusDef": {
+                "title": "Root Type for ErrorStatusDef",
+                "description": "Definición del estado de respuesta fallida de servidor.",
+                "type": "object",
+                "properties": {
+                    "ServerStatusCode": {
+                        "description": "Identificación de la operación fallida",
+                        "maxLength": 1000,
+                        "pattern": "^(?!.*<[^>]+>).*",
+                        "type": "string"
+                    },
+                    "Severity": {
+                        "description": "Severidad de respuesta",
+                        "maxLength": 1000,
+                        "pattern": "^(?!.*<[^>]+>).*",
+                        "type": "string"
+                    },
+                    "StatusCode": {
+                        "format": "int32",
+                        "description": "Código de estado de error",
+                        "maximum": 999,
+                        "minimum": 0,
+                        "type": "integer"
+                    },
+                    "StatusDesc": {
+                        "description": "Detalle del error",
+                        "maxLength": 1000,
+                        "pattern": "^(?!.*<[^>]+>).*",
+                        "type": "string"
+                    }
+                },
+                "additionalProperties": false,
+                "example": {
+                    "ServerStatusCode": "ERROR_GETTING_CONTENT",
+                    "Severity": "Error",
+                    "StatusCode": 500,
+                    "StatusDesc": "Problems Status 500"
+                }
+            },
+            "ErrorMsgDef": {
+                "title": "Root Type for ErrorMsgDef",
+                "description": "Definición de respuesta fallida de servidor.",
+                "required": [
+                    "EndDt",
+                    "Status"
+                ],
+                "type": "object",
+                "properties": {
+                    "EndDt": {
+                        "format": "date-time",
+                        "description": "Marca del momento en el que ocurrió el error.",
+                        "maxLength": 50,
+                        "type": "string"
+                    },
+                    "Status": {
+                        "$ref": "#/components/schemas/ErrorStatusDef"
+                    }
+                },
+                "additionalProperties": false,
+                "example": {
+                    "Status": {
+                        "ServerStatusCode": "ERROR_GETTING_CONTENT",
+                        "Severity": "Error",
+                        "StatusCode": 500,
+                        "StatusDesc": "Problems Status 500"
+                    },
+                    "EndDt": "2020-07-10T13:05:24.609Z"
+                }
+            },
+            "GetMoviesRsDef": {
+                "title": "Root Type for GetMoviesRsDef",
+                "description": "Definición de respuesta correcta para GetMoviesRsDef.",
+                "required": [
+                ],
+                "type": "array",
+                "items": {
+                    "$ref": "#/components/schemas/MoviesObjectDef"
+                },
+                "additionalProperties": false,
+                "example": {
+                    "Status": {
+                        "ServerStatusCode": "ERROR_GETTING_CONTENT",
+                        "Severity": "Error",
+                        "StatusCode": 500,
+                        "StatusDesc": "Problems Status 500"
+                    },
+                    "EndDt": "2020-07-10T13:05:24.609Z"
+                }
+            },
+            "MoviesObjectDef": {
+                "title": "Root Type for GetMoviesRsDef",
+                "description": "Definición de respuesta correcta para GetMoviesRsDef.",
+                "required": [
+                ],
+                "type": "array",
+                "properties": {
+                    "movie_name": {
+                        "description": "Nombre de la película",
+                        "maxLength": 100,
+                        "pattern": "^(?!.*<[^>]+>).*",
+                        "type": "string"
+                    },
+                    "movie_image_path": {
+                        "description": "Ruta de la imagen de la película",
+                        "maxLength": 100,
+                        "pattern": "^(?!.*<[^>]+>).*",
+                        "type": "string"
+                    },
+                    "movie_schedule": {
+                        "description": "Horario de la película",
+                        "maxLength": 100,
+                        "pattern": "^(?!.*<[^>]+>).*",
+                        "type": "string"
+                    },
+                    "movie_room_asigned": {
+                        "description": "Sala asignada a la película",
+                        "maxLength": 100,
+                        "pattern": "^(?!.*<[^>]+>).*",
+                        "type": "string"
+                    }
+                },
+                "additionalProperties": false,
+                "example": {
+                    "Status": {
+                        "ServerStatusCode": "ERROR_GETTING_CONTENT",
+                        "Severity": "Error",
+                        "StatusCode": 500,
+                        "StatusDesc": "Problems Status 500"
+                    },
+                    "EndDt": "2020-07-10T13:05:24.609Z"
+                }
+            }
+        },
+        "responses": {
+            "GenericErrorRs": {
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "$ref": "#/components/schemas/ErrorMsgDef"
+                        },
+                        "examples": {
+                            "SampleGenericError": {
+                                "value": {
+                                    "Status": {
+                                        "ServerStatusCode": "ERROR_GETTING_CONTENT",
+                                        "Severity": "Error",
+                                        "StatusCode": 500,
+                                        "StatusDesc": "Problems Status 500"
+                                    },
+                                    "EndDt": "2020-07-10T13:05:24.609Z"
+                                }
+                            }
+                        }
+                    }
+                },
+                "description": "Respuesta obtenida cuando ocurre un error de servidor."
+            }
+        },
+        "securitySchemes": {
+        }
+    },
+    "security": [
+        {
+            "X-Api-Key": []
+        }
+    ],
+    "x-amazon-apigateway-request-validators": {
+        "Validate body, query string parameters, and headers": {
+            "validateRequestParameters": true,
+            "validateRequestBody": true
+        }
+    }
+}

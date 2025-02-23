@@ -2,7 +2,7 @@ resource "aws_api_gateway_rest_api" "api" {
   name        = var.api_name
   description = "API Gateway para la Lambda"
 
-  body = templatefile("./api.yml",{
+  body = templatefile("./api.json",{
     lambda_arn = var.lambda_arn
   }) # Carga el archivo OpenAPI (OAS)
 }
