@@ -23,9 +23,9 @@ module "vpc" {
 }
 
 module "s3" {
-  source            = "./modules/s3"
-  bucket_name       = "s3-app-cinema"
-  environment       = "prod"
+  source             = "./modules/s3"
+  bucket_name        = "s3-app-cinema"
+  environment        = "prod"
   versioning_enabled = true
 }
 
@@ -41,6 +41,7 @@ module "lambda" {
   security_group_id = module.vpc.lambda_sg_id
   aws_region        = "us-east-1"
   aws_account_id    = var.accound_id
+  api_execution_arn = module.apigateway.cinema_execution_arn
 }
 
 module "cloudfront" {
@@ -54,9 +55,11 @@ module "cloudfront" {
 module "apigateway" {
   source     = "./modules/apigateway"
   api_name   = "api-cinema"
-  oas_file   = "${path.module}/api.yaml"
+  oas_file   = "./api.json"
   stage_name = "prod"
-  lambda_arn = module.lambda.lambda_arn
+  lambda_arn_cinema = module.lambda.cinema_arn
+  lambda_name_cinema = "Lambda_Cinema_Function"
+  lambda_role_name_cinema = module.lambda.cinema_role_name
 }
 
 output "vpc_id" {
@@ -64,5 +67,5 @@ output "vpc_id" {
 }
 
 output "api_url" {
-  value = module.apigateway.api_url
+  value = module.apigateway.cinema_url
 }

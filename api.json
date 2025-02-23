@@ -7,7 +7,7 @@
     },
     "servers": [
         {
-            "url": "api",
+            "url": "https://uwh375gzgi.execute-api.us-east-1.amazonaws.com/prod",
             "description": "Endpoint Producción"
         }
     ],
@@ -34,9 +34,8 @@
                 }
                 ],
                 "description": "Resource to read the approval letter.",
-                "x-amazon-apigateway-request-validator": "Validate body, query string parameters, and headers",
                 "x-amazon-apigateway-integration": {
-                "uri": "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:123456789012:function:mi-lambda/invocations",
+                "uri": "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:123456789012:function:lambda_cinema/invocations",
                 "responses": {
                     "default": {
                     "statusCode": "200"
@@ -99,22 +98,10 @@
                     }
                 ],
                 "x-amazon-apigateway-integration": {
-                    "responses": {
-                        "default": {
-                            "statusCode": "200",
-                            "responseParameters": {
-                                "method.response.header.Access-Control-Expose-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,X-Name,X-RqUID,X-CustId,X-IPAddr,X-Channel,access-token,x-custom-header-vc,x-origin-cloudfront,X-CompanyId,x-auth-token,x-strcode,traceparent'",
-                                "method.response.header.Access-Control-Allow-Methods": "'POST,OPTIONS'",
-                                "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,X-Name,X-RqUID,X-CustId,X-IPAddr,X-Channel,access-token,x-custom-header-vc,x-origin-cloudfront,X-CompanyId,x-auth-token,x-strcode,traceparent'",
-                                "method.response.header.Access-Control-Allow-Origin": "'*'"
-                            }
-                        }
-                    },
-                    "requestTemplates": {
-                        "application/json": "{\"statusCode\": 200}"
-                    },
+                    "httpMethod": "POST",
+                    "uri": "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:123456789012:function:lambda_cinema/invocations",
                     "passthroughBehavior": "when_no_match",
-                    "type": "mock"
+                    "type": "aws_proxy"
                 }
             }
         }

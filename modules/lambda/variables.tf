@@ -27,3 +27,8 @@ variable "aws_account_id" {
   description = "Security Group de la Lambda"
   type        = string
 }
+
+variable "api_execution_arn" {
+  description = "Security Group de la Lambda"
+  type        = string
+}
