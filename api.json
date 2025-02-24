@@ -1,0 +1,193 @@
+{
+    "openapi" : "3.0.1",
+    "info" : {
+      "title" : "cinema api rest",
+      "version" : "2025-02-23T04:39:48Z"
+    },
+    "servers" : [ {
+      "url" : "https://9o6tkggsrg.execute-api.us-east-1.amazonaws.com/prod/{basePath}",
+      "variables" : {
+        "basePath" : {
+          "default" : "Prod"
+        }
+      }
+    } ],
+    "paths" : {
+      "/v1/product/cinema/getMovies" : {
+        "get" : {
+          "responses" : {
+            "200" : {
+              "description" : "200 response",
+              "content" : {
+                "application/json" : {
+                  "schema" : {
+                    "$ref" : "#/components/schemas/Empty"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/v1/product/cinema/getRooms" : {
+        "get" : {
+          "responses" : {
+            "200" : {
+              "description" : "200 response",
+              "content" : {
+                "application/json" : {
+                  "schema" : {
+                    "$ref" : "#/components/schemas/Empty"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/v1/product/cinema/getReservations" : {
+        "get" : {
+          "responses" : {
+            "200" : {
+              "description" : "200 response",
+              "content" : {
+                "application/json" : {
+                  "schema" : {
+                    "$ref" : "#/components/schemas/Empty"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/v1/product/cinema/registryMovie" : {
+        "post" : {
+            "requestBody" : {
+                "description" : "requested body to registry movie",
+                "content" : {
+                    "application/json": {
+                        "title": {
+                            "type": "string"
+                        },
+                        "genre": {
+                            "type": "string"
+                        },
+                        "duration": {
+                            "type": "string"
+                        },
+                        "clasification": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "required" : true
+            },
+          "responses" : {
+            "200" : {
+              "description" : "200 response",
+              "content" : {
+                "application/json" : {
+                  "schema" : {
+                    "$ref" : "#/components/schemas/Empty"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/v1/product/cinema/registryRoom" : {
+        "post" : {
+            "requestBody" : {
+                "description" : "requested body to registry movie",
+                "content" : {
+                    "application/json":{
+                        "name": {
+                        "type": "string"
+                        },
+                        "capacity": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "required" : true
+            },
+          "responses" : {
+            "200" : {
+              "description" : "200 response",
+              "content" : {
+                "application/json" : {
+                  "schema" : {
+                    "$ref" : "#/components/schemas/Empty"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/v1/product/cinema/schedule" : {
+        "post" : {
+            "requestBody" : {
+                "description" : "requested body to registry movie",
+                "content" : {
+                    "application/json": {
+                        "movie": {
+                        "type": "string"
+                        },
+                        "room": {
+                            "type": "string"
+                        },
+                        "hour": {
+                            "type": "string"
+                        },
+                        "seats": {
+                            "type": "string"
+                        },
+                        "email": {
+                            "type": "string"
+                        },
+                        "phone": {
+                            "type": "string"
+                        },
+                        "firstName": {
+                            "type": "string"
+                        },
+                        "secondName": {
+                            "type": "string"
+                        },
+                        "surname": {
+                            "type": "string"
+                        },
+                        "secondSurname": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "required" : true
+            },
+          "responses" : {
+            "200" : {
+              "description" : "200 response",
+              "content" : {
+                "application/json" : {
+                  "schema" : {
+                    "$ref" : "#/components/schemas/Empty"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "components" : {
+      "schemas" : {
+        "Empty" : {
+          "title" : "Empty Schema",
+          "type" : "object"
+        }
+      }
+    }
+  }
