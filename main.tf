@@ -27,6 +27,7 @@ module "s3" {
   bucket_name        = "s3-app-cinema"
   environment        = "prod"
   versioning_enabled = true
+  cloudfront_id = module.cloudfront.cloudfront_id
 }
 
 

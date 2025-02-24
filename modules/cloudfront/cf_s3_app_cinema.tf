@@ -19,14 +19,14 @@ resource "aws_cloudfront_distribution" "cdn" {
   default_cache_behavior {
     target_origin_id       = var.s3_origin_id
     viewer_protocol_policy = "redirect-to-https"
-    allowed_methods        = ["GET", "HEAD"]
+    allowed_methods        = ["GET", "HEAD", "OPTIONS", "PUT", "POST", "PATCH", "DELETE"]
     cached_methods         = ["GET", "HEAD"]
     compress              = true
 
     forwarded_values {
       query_string = false
       cookies {
-        forward = "none"
+        forward = "all"
       }
     }
   }

@@ -19,3 +19,8 @@ variable "versioning_enabled" {
   type        = bool
   default     = true
 }
+
+variable "cloudfront_id" {
+  description = "Nombre del bucket de S3"
+  type        = string
+}
