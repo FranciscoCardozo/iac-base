@@ -13,17 +13,17 @@ variable "stage_name" {
   type        = string
 }
 
-variable "lambda_arn_cinema" {
-  description = "Nombre del Stage del API"
+variable "lambda_arn_assessments" {
+  description = "ARN de la Lambda"
   type        = string
 }
 
-variable "lambda_name_cinema" {
+variable "lambda_name_assessments" {
   description = "Nombre de la Lambda"
   type        = string
 }
 
-variable "lambda_role_name_cinema" {
+variable "lambda_role_name_assessments" {
   description = "Nombre de la Lambda"
   type        = string
 }

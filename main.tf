@@ -27,7 +27,7 @@ module "s3" {
   bucket_name        = "s3-app-cinema"
   environment        = "prod"
   versioning_enabled = true
-  cloudfront_id = module.cloudfront.cloudfront_id
+  cloudfront_id      = module.cloudfront.cloudfront_id
 }
 
 
@@ -42,7 +42,7 @@ module "lambda" {
   security_group_id = module.vpc.lambda_sg_id
   aws_region        = "us-east-1"
   aws_account_id    = var.accound_id
-  api_execution_arn = module.apigateway.cinema_execution_arn
+  api_execution_arn = module.apigateway.assessments_execution_arn
 }
 
 module "cloudfront" {
@@ -54,13 +54,13 @@ module "cloudfront" {
 }
 
 module "apigateway" {
-  source     = "./modules/apigateway"
-  api_name   = "api-cinema"
-  oas_file   = "./api.json"
-  stage_name = "prod"
-  lambda_arn_cinema = module.lambda.cinema_arn
-  lambda_name_cinema = "Lambda_Cinema_Function"
-  lambda_role_name_cinema = module.lambda.cinema_role_name
+  source                       = "./modules/apigateway"
+  api_name                     = "api-assessments"
+  oas_file                     = "./Api_Assesstments.json"
+  stage_name                   = "prod"
+  lambda_arn_assessments       = module.lambda.assessments_arn
+  lambda_name_assessments      = "Lambda_Assessments_Function"
+  lambda_role_name_assessments = module.lambda.assessments_role_name
 }
 
 output "vpc_id" {
@@ -68,5 +68,5 @@ output "vpc_id" {
 }
 
 output "api_url" {
-  value = module.apigateway.cinema_url
+  value = module.apigateway.assessments_url
 }

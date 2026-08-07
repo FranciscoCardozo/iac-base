@@ -1,7 +1,7 @@
 locals {
-  bucket_name = "s3-app-lambda"
-  bucket_acl  = "private"
-  environment = "prod"
+  bucket_name        = "s3-app-lambda"
+  bucket_acl         = "private"
+  environment        = "prod"
   versioning_enabled = true
 }
 resource "aws_s3_bucket" "bucket_lambda" {

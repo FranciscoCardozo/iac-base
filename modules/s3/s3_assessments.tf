@@ -1,6 +1,6 @@
 data "aws_caller_identity" "current" {}
 
-resource "aws_s3_bucket" "bucket_cinema" {
+resource "aws_s3_bucket" "bucket_assessments" {
   bucket = var.bucket_name
   acl    = "private"
 
@@ -11,33 +11,33 @@ resource "aws_s3_bucket" "bucket_cinema" {
 }
 
 resource "aws_s3_bucket_versioning" "versioning" {
-  bucket = aws_s3_bucket.bucket_cinema.id
+  bucket = aws_s3_bucket.bucket_assessments.id
   versioning_configuration {
     status = var.versioning_enabled ? "Enabled" : "Suspended"
   }
 }
 
 resource "aws_s3_bucket_public_access_block" "public_access" {
-  bucket = aws_s3_bucket.bucket_cinema.id
+  bucket = aws_s3_bucket.bucket_assessments.id
 
-  block_public_acls    = true
-  block_public_policy  = true
-  ignore_public_acls   = true
+  block_public_acls       = true
+  block_public_policy     = true
+  ignore_public_acls      = true
   restrict_public_buckets = true
 }
 
 resource "aws_s3_bucket_policy" "bucket_policy" {
-  bucket = aws_s3_bucket.bucket_cinema.id
+  bucket = aws_s3_bucket.bucket_assessments.id
   policy = jsonencode({
     Version = "2012-10-17",
     Statement = [
       {
-        Sid = "AllowCloudFrontServicePrincipal",
+        Sid    = "AllowCloudFrontServicePrincipal",
         Effect = "Allow",
         Principal = {
           Service = "cloudfront.amazonaws.com"
         },
-        Action = "s3:GetObject",
+        Action   = "s3:GetObject",
         Resource = "arn:aws:s3:::${var.bucket_name}/*",
         Condition = {
           StringEquals = {
@@ -47,4 +47,6 @@ resource "aws_s3_bucket_policy" "bucket_policy" {
       }
     ]
   })
+
+  depends_on = [aws_s3_bucket_public_access_block.public_access]
 }

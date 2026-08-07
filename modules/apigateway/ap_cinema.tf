@@ -2,18 +2,15 @@ resource "aws_api_gateway_rest_api" "api_cinema" {
   name        = "API_Cinema"
   description = "API Gateway basado en OpenAPI"
 
-  # Cargar el archivo OpenAPI (OAS)
-  body = templatefile("./api.json", {
-    lambda_arn = var.lambda_arn_cinema
+  body = templatefile(var.oas_file, {
+    lambda_arn = var.lambda_arn_assessments
   })
 }
 
-# Desplegar la API Gateway
 resource "aws_api_gateway_deployment" "deployment_cinema" {
   rest_api_id = aws_api_gateway_rest_api.api_cinema.id
 }
 
-# Crear un stage para la API
 resource "aws_api_gateway_stage" "stage_cinema" {
   rest_api_id   = aws_api_gateway_rest_api.api_cinema.id
   stage_name    = var.stage_name
@@ -24,16 +21,14 @@ resource "aws_api_gateway_stage" "stage_cinema" {
   }
 }
 
-# **🔹 Permiso para que API Gateway invoque Lambda**
 resource "aws_lambda_permission" "apigateway_cinema" {
-  statement_id  = "AllowAPIGatewayInvoke-${var.lambda_name_cinema}"
+  statement_id  = "AllowAPIGatewayInvoke-${var.lambda_name_assessments}"
   action        = "lambda:InvokeFunction"
-  function_name = var.lambda_name_cinema
+  function_name = var.lambda_name_assessments
   principal     = "apigateway.amazonaws.com"
-  source_arn    = "${aws_api_gateway_rest_api.api_cinema.execution_arn}/*"
+  source_arn    = "${aws_api_gateway_rest_api.api_cinema.execution_arn}/*/*"
 }
 
-# **🔹 Output para ver la URL de la API**
 output "api_gateway_url_cinema" {
   value = aws_api_gateway_stage.stage_cinema.invoke_url
 }

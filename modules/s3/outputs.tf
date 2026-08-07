@@ -1,13 +1,13 @@
 output "bucket_name" {
-  value = aws_s3_bucket.bucket_cinema.id
+  value = aws_s3_bucket.bucket_assessments.id
 }
 
 output "bucket_arn" {
-  value = aws_s3_bucket.bucket_cinema.arn
+  value = aws_s3_bucket.bucket_assessments.arn
 }
 
 output "bucket_regional_domain_name" {
-  value = aws_s3_bucket.bucket_cinema.bucket_regional_domain_name
+  value = aws_s3_bucket.bucket_assessments.bucket_regional_domain_name
 }
 
 output "bucket_lambda_name" {
