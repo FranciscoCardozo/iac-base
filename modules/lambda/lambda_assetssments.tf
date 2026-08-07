@@ -32,6 +32,25 @@ resource "aws_iam_role_policy_attachment" "lambda_basic_execution_assessments" {
   policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
 }
 
+resource "aws_iam_role_policy" "dynamodb_assessments" {
+  name = "${local.lambda_name}-dynamodb"
+  role = aws_iam_role.lambda_role_assessments.id
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [{
+      Effect = "Allow"
+      Action = [
+        "dynamodb:Query",
+        "dynamodb:GetItem",
+        "dynamodb:PutItem",
+        "dynamodb:UpdateItem"
+      ]
+      Resource = var.dynamodb_table_arn
+    }]
+  })
+}
+
 resource "aws_lambda_function" "assessments_function" {
   function_name    = local.lambda_name
   role             = aws_iam_role.lambda_role_assessments.arn

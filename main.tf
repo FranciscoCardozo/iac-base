@@ -39,12 +39,13 @@ module "dynamo" {
   source = "./modules/dynamo"
 }
 module "lambda" {
-  source            = "./modules/lambda"
-  lambda_name       = "lambda_assessments"
-  subnet_ids        = [module.vpc.private_subnet_id]
-  security_group_id = module.vpc.lambda_sg_id
-  aws_region        = "us-east-1"
-  aws_account_id    = var.accound_id
+  source             = "./modules/lambda"
+  lambda_name        = "lambda_assessments"
+  subnet_ids         = [module.vpc.private_subnet_id]
+  security_group_id  = module.vpc.lambda_sg_id
+  aws_region         = "us-east-1"
+  aws_account_id     = var.accound_id
+  dynamodb_table_arn = module.dynamo.assessments_table_arn
 }
 
 module "cloudfront" {

@@ -23,3 +23,8 @@ variable "aws_account_id" {
   type        = string
 }
 
+variable "dynamodb_table_arn" {
+  description = "ARN de la tabla DynamoDB utilizada por la Lambda"
+  type        = string
+}
+
