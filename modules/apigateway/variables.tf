@@ -23,7 +23,3 @@ variable "lambda_name_assessments" {
   type        = string
 }
 
-variable "lambda_role_name_assessments" {
-  description = "Nombre de la Lambda"
-  type        = string
-}

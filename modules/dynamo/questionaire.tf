@@ -1,9 +1,18 @@
 resource "aws_dynamodb_table" "assessments_table" {
   name         = "assessments_table"
   billing_mode = "PAY_PER_REQUEST"
-  hash_key     = "PartitionKey"
-  range_key    = "SortKey"
+  hash_key     = "PK"
+  range_key    = "SK"
 
+  attribute {
+    name = "PK"
+    type = "S"
+  }
+
+  attribute {
+    name = "SK"
+    type = "S"
+  }
 
   tags = {
     Name        = "AssessmentsTable"

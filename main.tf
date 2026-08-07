@@ -4,6 +4,10 @@ terraform {
       source  = "hashicorp/aws"
       version = ">= 5.79.0"
     }
+    archive = {
+      source  = "hashicorp/archive"
+      version = "~> 2.4"
+    }
   }
 }
 
@@ -24,7 +28,7 @@ module "vpc" {
 
 module "s3" {
   source             = "./modules/s3"
-  bucket_name        = "s3-app-cinema"
+  bucket_name        = "assessments-app-713881810585"
   environment        = "prod"
   versioning_enabled = true
   cloudfront_id      = module.cloudfront.cloudfront_id
@@ -36,13 +40,11 @@ module "dynamo" {
 }
 module "lambda" {
   source            = "./modules/lambda"
-  lambda_name       = "lambda_cinema"
-  lambda_zip        = "lambda.zip"
+  lambda_name       = "lambda_assessments"
   subnet_ids        = [module.vpc.private_subnet_id]
   security_group_id = module.vpc.lambda_sg_id
   aws_region        = "us-east-1"
   aws_account_id    = var.accound_id
-  api_execution_arn = module.apigateway.assessments_execution_arn
 }
 
 module "cloudfront" {
@@ -54,13 +56,12 @@ module "cloudfront" {
 }
 
 module "apigateway" {
-  source                       = "./modules/apigateway"
-  api_name                     = "api-assessments"
-  oas_file                     = "./Api_Assesstments.json"
-  stage_name                   = "prod"
-  lambda_arn_assessments       = module.lambda.assessments_arn
-  lambda_name_assessments      = "Lambda_Assessments_Function"
-  lambda_role_name_assessments = module.lambda.assessments_role_name
+  source                  = "./modules/apigateway"
+  api_name                = "api-assessments"
+  oas_file                = "./Api_Assesstments.json"
+  stage_name              = "prod"
+  lambda_arn_assessments  = module.lambda.assessments_arn
+  lambda_name_assessments = "lambda_assessments"
 }
 
 output "vpc_id" {
