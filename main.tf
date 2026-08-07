@@ -28,7 +28,7 @@ module "vpc" {
 
 module "s3" {
   source             = "./modules/s3"
-  bucket_name        = "assessments-app-713881810585"
+  bucket_name        = "s3-app-assessments"
   environment        = "prod"
   versioning_enabled = true
   cloudfront_id      = module.cloudfront.cloudfront_id

@@ -10,6 +10,7 @@ resource "aws_cloudfront_distribution" "cdn" {
   origin {
     domain_name              = var.s3_bucket_domain
     origin_id                = var.s3_origin_id
+    origin_path              = "/app"
     origin_access_control_id = aws_cloudfront_origin_access_control.cf_s3_app_assessments.id
   }
 
