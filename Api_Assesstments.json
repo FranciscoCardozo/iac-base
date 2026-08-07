@@ -14,6 +14,21 @@
       }
     }
   ],
+  "x-amazon-apigateway-cors": {
+    "allowOrigins": [
+      "https://dx3tnv8tnksgd.cloudfront.net"
+    ],
+    "allowHeaders": [
+      "Content-Type",
+      "Authorization"
+    ],
+    "allowMethods": [
+      "GET",
+      "POST",
+      "OPTIONS"
+    ],
+    "maxAge": 3600
+  },
   "paths": {
     "/V1/product/questionaire/getAllQuestions": {
       "get": {
