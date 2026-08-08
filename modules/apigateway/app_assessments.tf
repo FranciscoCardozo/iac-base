@@ -26,9 +26,6 @@ resource "aws_api_gateway_stage" "stage_assessments" {
   stage_name    = var.stage_name
   deployment_id = aws_api_gateway_deployment.deployment_assessments.id
 
-  lifecycle {
-    ignore_changes = [deployment_id]
-  }
 }
 
 resource "aws_lambda_permission" "apigateway_assessments" {

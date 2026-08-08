@@ -19,11 +19,21 @@ provider "aws" {
 
 
 module "vpc" {
-  source              = "./modules/vpc"
-  cidr_block          = "10.0.0.0/16"
-  vpc_name            = "mi-vpc"
-  private_subnet_cidr = "10.0.1.0/24"
-  availability_zone   = "us-east-1b"
+  source                   = "./modules/vpc"
+  cidr_block               = "10.0.0.0/16"
+  vpc_name                 = "mi-vpc"
+  private_subnet_cidr      = "10.0.1.0/24"
+  availability_zone        = "us-east-1b"
+  public_subnet_cidr       = "10.0.2.0/24"
+  public_availability_zone = "us-east-1b"
+}
+
+module "ec2" {
+  source        = "./modules/ec2"
+  vpc_id        = module.vpc.vpc_id
+  subnet_id     = module.vpc.public_subnet_id
+  instance_type = "t2.medium"
+  instance_name = "ubuntu-2204"
 }
 
 module "s3" {
@@ -71,4 +81,12 @@ output "vpc_id" {
 
 output "api_url" {
   value = module.apigateway.assessments_url
+}
+
+output "ec2_instance_id" {
+  value = module.ec2.instance_id
+}
+
+output "ec2_public_ip" {
+  value = module.ec2.public_ip
 }

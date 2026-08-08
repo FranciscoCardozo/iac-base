@@ -17,3 +17,13 @@ variable "availability_zone" {
   description = "Zona de disponibilidad"
   type        = string
 }
+
+variable "public_subnet_cidr" {
+  description = "CIDR para la subred pública"
+  type        = string
+}
+
+variable "public_availability_zone" {
+  description = "Zona de disponibilidad de la subred pública"
+  type        = string
+}
