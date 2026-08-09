@@ -49,13 +49,15 @@ module "dynamo" {
   source = "./modules/dynamo"
 }
 module "lambda" {
-  source             = "./modules/lambda"
-  lambda_name        = "lambda_assessments"
-  subnet_ids         = [module.vpc.private_subnet_id]
-  security_group_id  = module.vpc.lambda_sg_id
-  aws_region         = "us-east-1"
-  aws_account_id     = var.accound_id
-  dynamodb_table_arn = module.dynamo.assessments_table_arn
+  source              = "./modules/lambda"
+  lambda_name         = "lambda_assessments"
+  sandbox_lambda_name = "lambda_sandbox"
+  subnet_ids          = [module.vpc.private_subnet_id]
+  security_group_id   = module.vpc.lambda_sg_id
+  aws_region          = "us-east-1"
+  aws_account_id      = var.accound_id
+  dynamodb_table_arn  = module.dynamo.assessments_table_arn
+  ec2_instance_arn    = module.ec2.instance_arn
 }
 
 module "cloudfront" {
@@ -73,6 +75,8 @@ module "apigateway" {
   stage_name              = "prod"
   lambda_arn_assessments  = module.lambda.assessments_arn
   lambda_name_assessments = "lambda_assessments"
+  lambda_arn_sandbox      = module.lambda.lambda_arn_sandbox
+  lambda_name_sandbox     = "lambda_sandbox"
 }
 
 output "vpc_id" {

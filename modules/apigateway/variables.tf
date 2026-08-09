@@ -23,3 +23,13 @@ variable "lambda_name_assessments" {
   type        = string
 }
 
+variable "lambda_arn_sandbox" {
+  description = "ARN de la Lambda sandbox"
+  type        = string
+}
+
+variable "lambda_name_sandbox" {
+  description = "Nombre de la Lambda sandbox"
+  type        = string
+}
+

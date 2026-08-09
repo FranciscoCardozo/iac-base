@@ -28,3 +28,14 @@ variable "dynamodb_table_arn" {
   type        = string
 }
 
+variable "ec2_instance_arn" {
+  description = "ARN de la instancia EC2 accesible por la Lambda sandbox"
+  type        = string
+}
+
+variable "sandbox_lambda_name" {
+  description = "Nombre de la Lambda sandbox"
+  type        = string
+  default     = "lambda_sandbox"
+}
+
