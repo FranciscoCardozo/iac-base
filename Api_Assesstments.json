@@ -38,7 +38,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Empty"
+                  "$ref": "#/components/schemas/getAllQuestionsRs"
                 }
               }
             }
@@ -95,31 +95,42 @@
     "/V1/product/questionaire/registryQuestion": {
       "post": {
         "requestBody": {
-          "description": "requested body to registry a question",
+          "description": "requested body to register a question",
           "content": {
             "application/json": {
-              "type": "object",
-              "properties": {
-                "description": {
-                  "type": "string"
-                },
-                "category": {
-                  "type": "string"
-                },
-                "dificulty": {
-                  "type": "string"
-                },
-                "type": {
-                  "type": "string",
-                  "enum": [
-                    "MULTIPLE_CHOICE",
-                    "CODING"
-                  ]
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "text": {
+                    "type": "string"
+                  },
+                  "category": {
+                    "type": "string"
+                  },
+                  "dificulty": {
+                    "type": "string"
+                  },
+                  "type": {
+                    "type": "string",
+                    "enum": [
+                      "multiple",
+                      "coding",
+                      "open"
+                    ]
+                  },
+                  "answer": {
+                    "type": "string"
+                  },
+                  "options": {
+                    "type": "array",
+                    "items":{
+                      "type": "string"
+                    }
+                  }
                 }
               }
             }
-          },
-          "required": true
+          }
         },
         "responses": {
           "200": {
@@ -127,7 +138,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Empty"
+                  "$ref": "#/components/schemas/registryQuestionRs"
                 }
               }
             }
@@ -199,7 +210,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Empty"
+                  "$ref": "#/components/schemas/getAssessmentByIdRs"
                 }
               }
             }
@@ -259,15 +270,17 @@
           "description": "requested body to registry a question",
           "content": {
             "application/json": {
-              "type": "object",
-              "properties": {
-                "questions": {
-                  "type": "array",
-                  "items": {
-                    "type": "object",
-                    "properties": {
-                      "id": {
-                        "type": "string"
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "questions": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string"
+                        }
                       }
                     }
                   }
@@ -283,7 +296,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Empty"
+                  "$ref": "#/components/schemas/registryAssessmentRs"
                 }
               }
             }
@@ -343,13 +356,15 @@
           "description": "requested body to submit source code to sandbox",
           "content": {
             "application/json": {
-              "type": "object",
-              "properties": {
-                "languageId": {
-                  "type": "number"
-                },
-                "sourceCode": {
-                  "type": "string"
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "languageId": {
+                    "type": "number"
+                  },
+                  "sourceCode": {
+                    "type": "string"
+                  }
                 }
               }
             }
@@ -362,7 +377,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Empty"
+                  "$ref": "#/components/schemas/submitRs"
                 }
               }
             }
@@ -434,7 +449,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Empty"
+                  "$ref": "#/components/schemas/submitRs"
                 }
               }
             }
@@ -494,6 +509,206 @@
       "Empty": {
         "title": "Empty Schema",
         "type": "object"
+      },
+      "getAllQuestionsRs": {
+        "title": "Schema for getAllQuestions req",
+        "type": "object",
+        "properties": {
+          "questions": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "category": {
+                  "type": "string"
+                },
+                "options":{
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "text": {
+                  "type": "string"
+                },
+                "difficulty": {
+                  "type": "string"
+                },
+                "PK": {
+                  "type": "string"
+                },
+                "answer": {
+                  "type": "string"
+                },
+                "type": {
+                  "type": "string"
+                },
+                "SK": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "example": {
+          "questions": [
+            {
+              "category": "JavaScript",
+              "options": [
+                  "async",
+                  "await",
+                  "delete",
+                  "ngOnInit"
+              ],
+              "text": "Cual de las siguientes opciones se usa para definir una función asincrona",
+              "difficulty": "easy",
+              "PK": "QUESTION",
+              "answer": "async",
+              "type": "multiple",
+              "SK": "QUESTION#7c118c54-2821-4045-a995-3117bf14c18a"
+            }
+          ]
+        }
+      },
+      "registryQuestionRs": {
+        "title": "Schema for registryQuestionRs",
+        "type": "object",
+        "properties": {
+          "result": {
+            "type": "object",
+            "properties": {
+              "$metadata":{
+                "type": "object",
+                "properties": {
+                  "httpStatusCode": {
+                    "type": "number"
+                  },
+                  "requestId": {
+                    "type": "string"
+                  },
+                  "attempts": {
+                    "type": "number"
+                  },
+                  "totalRetryDelay": {
+                    "type": "number"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "example": {
+          "result": {
+            "$metadata": {
+                "httpStatusCode": 200,
+                "requestId": "TKUOCAPL3M3FIESOJ1TEA73FONVV4KQNSO5AEMVJF66Q9ASUAAJG",
+                "attempts": 1,
+                "totalRetryDelay": 0
+            }
+          }
+        }
+      },
+      "getAssessmentByIdRs": {
+        "title": "Schema for getAssessmentById",
+        "type": "object",
+        "properties": {
+          "assessment":{
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "PK": {
+                  "type": "string"
+                },
+                "questions": {
+                  "type": "array",
+                  "items":{
+                    "type": "string"
+                  }
+                },
+                "SK": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "example": {
+          "assessment": [
+            {
+                "PK": "ASSESSMENT",
+                "questions": [
+                    "7c118c54-2821-4045-a995-3117bf14c18a",
+                    "7f9c3689-9f7b-4a20-91a2-959cec8f93f1",
+                    "f6788029-2f20-4488-b89c-52cf8959dccf"
+                ],
+                "SK": "ASSESSMENT#b91eddf6-fd35-4a0f-b2db-26e5d7bdac4f"
+            }
+          ]
+        }
+      },
+      "registryAssessmentRs": {
+        "title": "Schema for registryAssessment",
+        "type": "object",
+        "properties": {
+          "uuid": {
+            "type": "string"
+          }
+        },
+        "example": {
+          "uuid": "06c77c6b-5488-4f5a-a854-74e710e68498"
+        }
+      },
+      "submitRs": {
+        "title": "Schema for submitRs",
+        "type": "object",
+        "properties": {
+          "stdout": {
+            "type": "string"
+          },
+          "time": {
+            "type": "string"
+          },
+          "memory": {
+            "type": "number"
+          },
+          "stderr": {
+            "type": "string"
+          },
+          "token": {
+            "type": "string"
+          },
+          "compile_output": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          },
+          "status": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "number"
+              },
+              "description": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "example": {
+          "stdout": "15\n",
+          "time": "0.014",
+          "memory": 3268,
+          "stderr": null,
+          "token": "726bace7-00ba-44fb-91a9-4819d81f51d1",
+          "compile_output": null,
+          "message": null,
+          "status": {
+            "id": 3,
+            "description": "Accepted"
+          }
+        }
       }
     }
   }
